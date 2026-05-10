@@ -51,6 +51,17 @@ MAE is the primary metric because it is easy to explain in dollars: it represent
 | Linear Regression | $3,560.80 | $3,554.13 | $5,274.11 | 0.79 |
 | Median baseline | $9,536.56 | $9,568.71 | $11,685.83 | -0.04 |
 
+## Robustness Check
+
+Because `make_model` and `region` are high-cardinality features, the notebook includes a robustness check that compares boosted-tree performance with and without those fields. On a sampled holdout check, removing them only slightly changed performance:
+
+| Feature Set | Test MAE | Test RMSE | Test R² |
+|---|---:|---:|---:|
+| All features | $3,174.01 | $4,756.64 | 0.83 |
+| Without `make_model` and `region` | $3,193.69 | $4,789.82 | 0.83 |
+
+This suggests the model is not relying only on make/model and location lookup effects, although those fields still contain useful market signal.
+
 ## Key Findings
 
 1. Vehicle age is one of the strongest drivers of price. Newer vehicles generally command higher listed prices.
@@ -66,4 +77,3 @@ Prioritize newer, lower-mileage vehicles with clean titles, desirable body types
 ## Next Steps
 
 Future work could improve the analysis by adding days-on-market, actual transaction prices, trim-level data, vehicle history reports, regional demand indicators, and SHAP-based explanations for the boosted model.
-
